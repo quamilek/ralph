@@ -20,7 +20,7 @@ form.form-inline {
 {% block scripts %}
     {{ block.super }}
     <script type="text/javascript">
-      $(document).ready(function() {
+      $().ready(function() {
             $('#post_edit_all').click(function() {
                 var ids = [];
                 $("#assets_table input[type=checkbox]").each(
