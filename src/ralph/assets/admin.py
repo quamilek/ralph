@@ -76,33 +76,3 @@ class AssetManufacturerAdmin(ModelAdmin):
     search_fields = ('name',)
 
 admin.site.register(AssetManufacturer, AssetManufacturerAdmin)
-
-
-class AssetAdmin(ModelAdmin):
-    save_on_top = True
-    list_display = ('model', 'type', 'status', 'sn', 'barcode')
-
-admin.site.register(Asset, AssetAdmin)
-
-
-class DeviceInfoAdmin(ModelAdmin):
-    def location(self):
-        return self.location
-    list_display = ('ralph_device', 'size', location)
-    save_on_top = True
-
-admin.site.register(DeviceInfo, DeviceInfoAdmin)
-
-
-class PartInfoAdmin(ModelAdmin):
-    list_display = ('device', 'source_device', 'barcode_salvaged',)
-    save_on_top = True
-
-admin.site.register(PartInfo, PartInfoAdmin)
-
-
-class OfficeInfoAdmin(ModelAdmin):
-    list_display = ('license_key', 'license_type', 'date_of_last_inventory',)
-    save_on_top = True
-
-admin.site.register(OfficeInfo, OfficeInfoAdmin)
