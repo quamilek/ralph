@@ -47,10 +47,6 @@ class CodeWidget(forms.TextInput):
             escape(name), escape(name), formatted))
 
 
-class ModeNotSetException(Exception):
-    pass
-
-
 class BaseAssetForm(ModelForm):
     class Meta:
         model = Asset
@@ -159,7 +155,7 @@ class BasePartForm(ModelForm):
         """mode argument is required for distinguish ajax sources"""
         mode = kwargs.get('mode')
         if mode:
-            del kwargs['mode']
+            kwargs.pop('mode')
         else:
             raise TypeError("mode argument not given.")
         super(BasePartForm, self).__init__(*args, **kwargs)
