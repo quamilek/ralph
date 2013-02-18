@@ -161,7 +161,7 @@ class BasePartForm(ModelForm):
         if mode:
             del kwargs['mode']
         else:
-            raise ModeNotSetException("mode argument not given.")
+            raise TypeError("mode argument not given.")
         super(BasePartForm, self).__init__(*args, **kwargs)
 
         channel = 'asset_dcdevice' if mode == 'dc' else 'asset_bodevice'
