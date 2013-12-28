@@ -252,7 +252,8 @@ class DeviceCreateForm(DeviceForm):
                 raise forms.ValidationError(e)
         if not (macs or sn):
             raise forms.ValidationError(
-                    "Either MACs or serial number required.")
+                "Either MACs or serial number required."
+            )
         return ' '.join(macs)
 
     def clean_model(self):
@@ -323,7 +324,12 @@ class DeviceInfoForm(DeviceForm):
             return
         rack = self.instance.find_rack()
         if rack:
-            for network in rack.network_set.order_by('name'):
+            rack_networks = sorted(
+                rack.network_set.all(),
+                key=lambda net: net.get_netmask(),
+                reverse=True,
+            )
+            for network in rack_networks:
                 next_hostname = get_next_free_hostname(network.data_center)
                 if next_hostname:
                     help_text = 'Next available hostname in this DC: %s' % (
@@ -417,8 +423,12 @@ class PropertyForm(forms.Form):
             elif p.type.symbol == 'INTEGER':
                 field = forms.IntegerField(label=p.symbol, required=False)
             else:
-                choices = [(tv.value, tv.value) for tv in
-                           p.type.rolepropertytypevalue_set.all()]
-                field = forms.ChoiceField(label=p.symbol, required=False,
-                                          choices=choices)
+                choices = [('', '------')] + [
+                    (tv.value, tv.value) for tv in p.type.rolepropertytypevalue_set.all()
+                ]
+                field = forms.ChoiceField(
+                    label=p.symbol,
+                    required=False,
+                    choices=choices,
+                )
             self.fields[p.symbol] = field
