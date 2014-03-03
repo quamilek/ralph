@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'ralph.discovery',
     'ralph.deployment',
     'ralph.integration',
+    'ralph.inkpy',
     'ralph.ui',
     'ralph.dnsedit',
     'ralph.util',
@@ -700,3 +701,7 @@ SCAN_PLUGINS = {
     },
 }
 
+INKPY = {
+    'script_path': None,
+    'tmp_dir': '/tmp/inkpy'
+}
