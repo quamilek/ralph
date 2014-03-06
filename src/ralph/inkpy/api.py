@@ -17,7 +17,7 @@ def convert(source_path, output_path, data):
 
 
 def run_async(source_path, output_path, data):
-    queue = django_rq.get_queue('default')
+    queue = django_rq.get_queue('inkpy')
 
     return queue.enqueue_call(
         func=convert,
@@ -26,5 +26,5 @@ def run_async(source_path, output_path, data):
             output_path,
             data,
         ),
-        timeout=6000,
+        timeout=600,
     ).id

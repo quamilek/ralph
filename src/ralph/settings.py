@@ -354,7 +354,7 @@ API_THROTTLING = {
     'expiration': None,
 }
 RQ_QUEUE_LIST = ('reports', 'email', 'cmdb_git', 'cmdb_jira', 'cmdb_jira_int',
-                 'cmdb_zabbix', 'cmdb_assets')
+                 'cmdb_zabbix', 'cmdb_assets', 'inkpy')
 RQ_QUEUES = {
     'default': {
         'HOST': 'localhost',

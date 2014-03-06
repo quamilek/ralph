@@ -95,20 +95,19 @@ class Converter(object):
         self.zip_dir(self.tmp_dir, self.tmp_odt, False)
 
     def render(self):
-        xml_path = "{}/content.xml".format(self.tmp_dir)
-        import codecs
-        # with codecs.open(xml_path, 'r', 'utf-8') as f:
-        with open(xml_path, 'r') as f:
-            content = f.read()
-            # change to other renderer
-            new_content = self._django_renderer(content)
-            # import pdb; pdb.set_trace()
-            # f.write(new_content)
-            f.close()
-        # when in fly doesn't work
-        with open(xml_path, 'w') as f:
-            f.write(new_content)
-            f.close()
+        content_xml = "{}/content.xml".format(self.tmp_dir)
+        styles_xml = "{}/styles.xml".format(self.tmp_dir)
+
+        def _render(file_name):
+            with open(file_name, 'r') as f:
+                content = f.read()
+                new_content = self._django_renderer(content)
+                f.close()
+            with open(file_name, 'w') as f:
+                f.write(new_content.encode("UTF-8"))
+                f.close()
+        _render(content_xml)
+        _render(styles_xml)
 
     def _django_renderer(self, file_content):
         template = Template(file_content)
