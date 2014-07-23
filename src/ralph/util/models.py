@@ -29,3 +29,19 @@ db.signals.post_save.connect(create_api_key_ignore_dberrors, sender=User)
 
 from django.contrib.auth.tests import models as auth_test_models
 del auth_test_models.ProfileTestCase.test_site_profile_not_available
+
+
+class SyncFieldMixin(object):
+    """Mixin propagating the changes to linked objects."""
+
+    def get_synced_objs(self):
+        raise NotImplementedError()
+
+    def get_synced_fields(self):
+        raise NotImplementedError()
+
+    def save(self, *args, **kwargs):
+        for obj in self.get_synced_objs():
+            for f in self.get_synced_fields():
+                setattr(obj, f, getattr(self, f))
+            obj.save(sync=False, priority=250)
